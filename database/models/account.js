@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const { User } = require('./user');
+const { User } = require("../models")
 module.exports = (sequelize, DataTypes) => {
   class Account extends Model {
     /**
@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       //i need to get username id by supplied username
       //i use the findbypk method
       try{
-        console.log(username)
+        //const project = await Project.findByPk(123);
+        let res = await User.findByPk(username)
+        return res
 
       }
       catch(err){

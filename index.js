@@ -6,7 +6,7 @@
 //  A banker should not have any accounts (no co-mingling of funds) and a person should not see the superuser options that bankers have. 
 // How you want to design this is up to you. See inheritance
 
-const { Account } = require("./database/models/account")
+const { Account } = require("./database/models/")
 //should not see banker privileges blah
 class User {
     constructor(username , permission){
@@ -48,4 +48,3 @@ class Banker {
 
 const newuser = new User("test")
 newuser.getUserAccounts("dave")
-console.log(Account)
