@@ -10,23 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    async getAccounts(username){
-      //i need to get username id by supplied username
-      //i use the findbypk method
-      try{
-        //const project = await Project.findByPk(123);
-        let res = await User.findByPk(username)
-        return res
-
-      }
-      catch(err){
-        console.log(err)
-      }
-
-
-    }
     static associate(models) {
       // define association here
+      Account.belongsTo(models.User)
     }
   }
   Account.init({
