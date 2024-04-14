@@ -2,10 +2,10 @@ const config = {
   "development":  {
     "username": "root",
     "password": null,
-    "storage": "./dev/dev.sqlite",
+    "storage": "../dev/dev.sqlite",
     "dialect": "sqlite",
     "logging": false,
-    "seeders-path": "./seeders",
+    "seeders-path": "../seeders",
     "define": {
       "underscored": true
     }
@@ -16,7 +16,7 @@ const config = {
     "storage": ':memory:',
     "dialect": "sqlite",
     "logging": false,
-    "seeders-path": "./seeders",
+    "seeders-path": "../seeders",
     "define": {
       "underscored": true
     }
@@ -24,10 +24,10 @@ const config = {
   "production": {
     "username": "root",
     "password": null,
-    "storage": "./prod/data.sqlite",
+    "storage": "../prod/data.sqlite",
     "dialect": "sqlite",
     "logging": false,
-    "seeders-path": "./seeders",
+    "seeders-path": "../seeders",
     "define": {
       "underscored": true
     }

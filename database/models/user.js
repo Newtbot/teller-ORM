@@ -18,11 +18,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     username: DataTypes.STRING,
-    permission: DataTypes.STRING
+    permission: DataTypes.STRING,
+
   }, {
     sequelize,
     modelName: 'User',
+    timestamps: true,
+
   });
   return User;
 };
+
 

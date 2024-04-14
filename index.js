@@ -6,19 +6,21 @@
 //  A banker should not have any accounts (no co-mingling of funds) and a person should not see the superuser options that bankers have. 
 // How you want to design this is up to you. See inheritance
 
-const { Account } = require("./database/models/")
+const { Account , User } = require("./database/models")
+//const { Banlist, Player } = require("../database/models");
+
 //should not see banker privileges blah
-class User {
+class Client {
     constructor(username , permission){
         this.username = username
-        this.permission = this.permission
+        this.permission = permission
     }
-    //view all account
-    getUserAccounts(username){
+    //get all account of the user
+    async getUserAccounts(username){
         try {
-            const res = Account.getAccounts(username)
+            const res = await User.findAll()
             console.log(res)
-            return res
+
             
         } catch (error) {
             console.log(error)
@@ -46,5 +48,5 @@ class Banker {
     //transfer for any user account to any user acc
 }
 
-const newuser = new User("test")
+const newuser = new Client("test")
 newuser.getUserAccounts("dave")
