@@ -2,7 +2,7 @@ const config = {
   "development":  {
     "username": "root",
     "password": null,
-    "storage": "../dev/dev.sqlite",
+    "storage": __dirname + "/../dev/dev.sqlite",
     "dialect": "sqlite",
     "logging": false,
     "seeders-path": "../seeders",

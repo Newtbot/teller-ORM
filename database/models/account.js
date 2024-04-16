@@ -16,13 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Account.init({
     balance: DataTypes.INTEGER,
-    users_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Account',
-    timestamps: true,
-
+    underscored: true,
   });
   return Account;
 };
-
