@@ -24,6 +24,7 @@ class Client {
 					username: username,
 				},
 			});
+            //https://sequelize.org/docs/v6/core-concepts/assocs/#special-methodsmixins-added-to-instances
             const AccountRes = await userRes.getAccounts()
             return AccountRes
 		} catch (error) {
@@ -32,6 +33,24 @@ class Client {
 	}
 
 	//deposit
+    async deposit(username , balance) {
+        try {
+            const userRes = await User.findOne({
+				where: {
+					username: username,
+				},
+			});
+
+
+
+        
+
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
 
 	//withdraw
 }
@@ -47,4 +66,21 @@ class Banker {
 }
 
 const user = new Client("test");
-user.getUserAccounts()
+//IIFE https://github.com/theta42/proxy/blob/master/nodejs/models/user_redis.js#L111
+// (async function(){
+// 	try{
+// 		let Res = await user.getUserAccounts("dave")
+//         console.log(Res)
+// 	}catch(error){
+//         console.log(error)
+// 	}
+// })();
+
+
+(async function(){
+	try{
+		user.deposit("dave" , "10")
+	}catch(error){
+        console.log(error)
+	}
+})();
