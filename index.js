@@ -7,6 +7,7 @@
 //that bankers have.
 // How you want to design this is up to you. See inheritance
 
+const { where } = require("sequelize");
 const { Account, User } = require("./database/models");
 //const { Banlist, Player } = require("../database/models");
 
@@ -25,6 +26,7 @@ class Client {
 				},
 			});
             //https://sequelize.org/docs/v6/core-concepts/assocs/#special-methodsmixins-added-to-instances
+			if (!userRes) throw new error("no user found")
             const AccountRes = await userRes.getAccounts()
             return AccountRes
 		} catch (error) {
@@ -40,12 +42,21 @@ class Client {
 					username: username,
 				},
 			});
+			if (!userRes) throw new error("no user found")
+			console.log(userRes.id)
 
+			//fucking update queries would work lol....
+			const balanceRes = await Account.update({
+				balance: balance,
+			},{
+				where:{
+					user_id: userRes.id
+				}
+			})
+			if (!balanceRes) throw new error("no balance was added")
+			console.log(balanceRes)
+			// return balanceRes
 
-
-        
-
-            
         } catch (error) {
             console.log(error)
         }
@@ -53,6 +64,11 @@ class Client {
     }
 
 	//withdraw
+	/*
+	1) get amt to withdraw
+	2) do math??
+	3) update query
+	*/
 }
 class Banker {
 	constructor() {}
@@ -66,7 +82,7 @@ class Banker {
 }
 
 const user = new Client("test");
-//IIFE https://github.com/theta42/proxy/blob/master/nodejs/models/user_redis.js#L111
+// // IIFE https://github.com/theta42/proxy/blob/master/nodejs/models/user_redis.js#L111
 // (async function(){
 // 	try{
 // 		let Res = await user.getUserAccounts("dave")
@@ -77,10 +93,10 @@ const user = new Client("test");
 // })();
 
 
-(async function(){
-	try{
-		user.deposit("dave" , "10")
-	}catch(error){
-        console.log(error)
-	}
-})();
+// (async function(){
+// 	try{
+// 		user.deposit("dave" , "10")
+// 	}catch(error){
+//         console.log(error)
+// 	}
+// })();
