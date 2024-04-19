@@ -1,34 +1,6 @@
-// Step 2: Our program models We need two different classes for users - a client, and a banker.
-// A client should be able to view all their accounts, deposit and withdraw funds to and from their OWN accounts,
-// and transfer money from their OWN accounts to another user account.
-// A banker should be able to create accounts, deposit and withdraw funds from ANY user account,
-//  and transfer money between ANY two user accounts.
-//  A banker should not have any accounts (no co-mingling of funds) and a person should not see the superuser options
-//that bankers have.
-// How you want to design this is up to you. See inheritance
-
-const { where } = require("sequelize");
 const { Account, User } = require("./database/models");
-//const { Banlist, Player } = require("../database/models");
+const Database = require("./modules/Database")
 
-class Database {
-	constructor() {}
-	static async userLookup(username) {
-		try {
-			//https://sequelize.org/docs/v6/core-concepts/assocs/#special-methodsmixins-added-to-instances
-			const UserRes = await User.findOne({
-				where: {
-					username: username,
-				},
-			});
-			if (!UserRes) return false
-			return UserRes;
-		} catch (error) {
-			throw new Error(error);
-		}
-	}
-	static async accountUpdate() {}
-}
 
 //should not see banker privileges blah
 class Bank {
@@ -87,160 +59,162 @@ class Bank {
 	}
 
 	//deposit
-	async deposit(username, balance) {
+	//deposit and withdraw funds from ANY user account, and transfer money between ANY two user accounts
+	async deposit(username, amount , target) {
 		try {
 			const user = await Database.userLookup(username)
 			if (user.permission !== "banker") {
 				//deposit for ur own acc
+				/*
+				This does not account for one to many. 
+				if a user has mutliple account it would update both accounts lol
+				*/
 
+				//get the old amount first........
+
+
+				
+				// const balRes = await Database.balanceUpdate(user , amount)
+				// return balRes
 			} else {
 				//deposit for any and all accounts
-			
+				/*
+				This does not account for a proper implemenetation due to nature of the project...
+				in a real world scenario proper access control should be implemeneted but this is just a simple
+				MVC concept
+				*/
+				// const targetRes = await Database.userLookup(target)
+				// const balRes = await Database.balanceUpdate(targetRes , amount)
+				// return `Successful!`
+
 			}
-			//fucking update queries would work lol....
-			// const balanceRes = await Account.update(
-			// 	{
-			// 		balance: balance,
-			// 	},
-			// 	{
-			// 		where: {
-			// 			user_id: userRes.id,
-			// 		},
-			// 	}
-			// );
-			// if (!balanceRes) throw new Error("no balance was added");
-			// return balanceRes;
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
 	//withdraw
+	//deposit and withdraw funds from ANY user account, and transfer money between ANY two user accounts
 	/*
 	1) get amt to withdraw
 	2) do math??
 	3) update query
 	*/
-	async withdraw(username, balance) {
+	async withdraw(username, amount) {
 		try {
-			const userRes = await User.findOne({
-				where: {
-					username: username,
-				},
-			});
-			if (!userRes) throw new Error("no user found");
+			const user = await Database.userLookup(username)
+			//get bal
+			if (user.permission !== "banker") {
+				//user withdraw from his own acc and blah
 
-			//balance res lookup
-			const userBalRes = await Account.findOne({
-				where: {
-					user_id: userRes.id,
-				},
-				//https://github.com/sequelize/sequelize/issues/4074
-				attributes: ["balance"],
-			});
-			// console.log(userBalRes.balance)
-			const newBal = userBalRes.balance - balance;
+				//acount lookup for the balance
+				const accountRes = Database.accountLookup(user)
+				const newBal = accountRes.balance - amount 
 
-			//update the usr account balance now.
-			const userBal = await Account.update(
-				{
-					balance: newBal,
-				},
-				{
-					where: {
-						user_id: userRes.id,
-					},
-				}
-			);
+				const balanceRes = Database.balanceUpdate(user , newBal)
+				return `Your new Balance is ${newBal} for ${username}`;
 
-			return `Your new Balance is ${newBal} for ${username}`;
+			}else{
+				//banker can withdraw from any account and blah
+				/*
+				This does not account for a proper implemenetation due to nature of the project...
+				in a real world scenario proper access control should be implemeneted but this is just a simple
+				MVC concept
+				*/
+
+
+			}
 		} catch (error) {
 			console.log(error);
 		}
 	}
+	//spagati CODE TERRIBLE DO NOT LOOK!!!!!!
+	//spagati CODE TERRIBLE DO NOT LOOK!!!!!!
+	//spagati CODE TERRIBLE DO NOT LOOK!!!!!!
+	//spagati CODE TERRIBLE DO NOT LOOK!!!!!!
+	//spagati CODE TERRIBLE DO NOT LOOK!!!!!!
 
 	//Note: in real Banking system. The Tripe A like authentication will obviously be present like usage of pin to authenticate
 	//if he is the user
 	//Due to the limiation of JS not have inheritence unlike Python. I will not be able to recreate this here.
-
 	//and transfer money from their OWN accounts to another user account
 	/*
 	Notes:
 	user need to have the amt if not it will return a fail 
 	if user does not have succifient funds return error.
 	*/
-	async transfer(username, amount, receiver) {
-		try {
-			const userRes = await User.findOne({
-				where: {
-					username: username,
-				},
-			});
-			if (!userRes) throw new Error("no user found");
+	// async transfer(username, amount, receiver) {
+	// 	try {
+	// 		const userRes = await User.findOne({
+	// 			where: {
+	// 				username: username,
+	// 			},
+	// 		});
+	// 		if (!userRes) throw new Error("no user found");
 
-			const receiverRes = await User.findOne({
-				where: {
-					username: receiver,
-				},
-			});
-			if (!receiverRes) throw new Error("no receiver found!");
+	// 		const receiverRes = await User.findOne({
+	// 			where: {
+	// 				username: receiver,
+	// 			},
+	// 		});
+	// 		if (!receiverRes) throw new Error("no receiver found!");
 
-			//check bal of user trying to transfer
-			const userBalRes = await Account.findOne({
-				where: {
-					user_id: userRes.id,
-				},
-				//https://github.com/sequelize/sequelize/issues/4074
-				attributes: ["balance"],
-			});
+	// 		//check bal of user trying to transfer
+	// 		const userBalRes = await Account.findOne({
+	// 			where: {
+	// 				user_id: userRes.id,
+	// 			},
+	// 			//https://github.com/sequelize/sequelize/issues/4074
+	// 			attributes: ["balance"],
+	// 		});
 
-			//check bal of receiver
-			const receiverBalRes = await Account.findOne({
-				where: {
-					user_id: receiverRes.id,
-				},
-				//https://github.com/sequelize/sequelize/issues/4074
-				attributes: ["balance"],
-			});
+	// 		//check bal of receiver
+	// 		const receiverBalRes = await Account.findOne({
+	// 			where: {
+	// 				user_id: receiverRes.id,
+	// 			},
+	// 			//https://github.com/sequelize/sequelize/issues/4074
+	// 			attributes: ["balance"],
+	// 		});
 
-			//if the bal <= 0 do nothing and throw a error
-			// console.log(userBalRes)
-			if (userBalRes.balance <= 0) {
-				throw new Error(
-					`${username} has insufficient Balance to transfer to ${receiver}`
-				);
-			} else {
-				//get amt to transfer
-				//minus the amount from the user trying to transfer
-				//update the receiver balance
-				const remainBal = userBalRes.balance - amount;
-				const userBal = await Account.update(
-					{
-						balance: remainBal,
-					},
-					{
-						where: {
-							user_id: userRes.id,
-						},
-					}
-				);
-				const receiverNewBal = receiverBalRes.balance + amount;
-				const newBal = await await Account.update(
-					{
-						balance: receiverNewBal,
-					},
-					{
-						where: {
-							user_id: receiverRes.id,
-						},
-					}
-				);
-				return `${username} has successfully transfer ${amount} to ${receiver}`;
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	// 		//if the bal <= 0 do nothing and throw a error
+	// 		// console.log(userBalRes)
+	// 		if (userBalRes.balance <= 0) {
+	// 			throw new Error(
+	// 				`${username} has insufficient Balance to transfer to ${receiver}`
+	// 			);
+	// 		} else {
+	// 			//get amt to transfer
+	// 			//minus the amount from the user trying to transfer
+	// 			//update the receiver balance
+	// 			const remainBal = userBalRes.balance - amount;
+	// 			const userBal = await Account.update(
+	// 				{
+	// 					balance: remainBal,
+	// 				},
+	// 				{
+	// 					where: {
+	// 						user_id: userRes.id,
+	// 					},
+	// 				}
+	// 			);
+	// 			const receiverNewBal = receiverBalRes.balance + amount;
+	// 			const newBal = await await Account.update(
+	// 				{
+	// 					balance: receiverNewBal,
+	// 				},
+	// 				{
+	// 					where: {
+	// 						user_id: receiverRes.id,
+	// 					},
+	// 				}
+	// 			);
+	// 			return `${username} has successfully transfer ${amount} to ${receiver}`;
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
 }
 const user = new Bank("test");
 //get all accounts
@@ -267,7 +241,7 @@ const user = new Bank("test");
 //deposit
 (async function(){
 	try{
-		user.deposit("dave" , "10")
+		user.deposit("dave" , "1" , "dave")
 	}catch(error){
         console.log(error)
 	}
