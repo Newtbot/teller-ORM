@@ -1,8 +1,7 @@
 Your Own Private Bank
 Welcome back! In this challenge you'll be creating a rich Python terminal app emulating bank software.
 
-### Step 1: Database
-Our DB schema for this challenge is simple. For now, we only need two tables - Users and accounts. A user can have many accounts. Users should have at minimum a username to log in to the app, a time when they were created, and a permissions level. An account should have a number and a balance. Design the schema in SQL designer if it helps you.
+### Step 1: Database: Our DB schema for this challenge is simple. For now, we only need two tables - Users and accounts. A user can have many accounts. Users should have at minimum a username to log in to the app, a time when they were created, and a permissions level. An account should have a number and a balance. Design the schema in SQL designer if it helps you.
 
 ### Step 2: Our program models We need two different classes for users - a client, and a banker. A client should be able to view all their accounts, deposit and withdraw funds to and from their OWN accounts, and transfer money from their OWN accounts to another user account. A banker should be able to create accounts, deposit and withdraw funds from ANY user account, and transfer money between ANY two user accounts. A banker should not have any accounts (no co-mingling of funds) and a person should not see the superuser options that bankers have. How you want to design this is up to you. See inheritance
 
