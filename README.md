@@ -24,8 +24,8 @@ File Structure
 │   │   ├── account.js // account model class to abstract User table for ORM usage
 │   │   ├── user.js // User model class to abstract User table for ORM usage
 │   │   ├── index.js // Sequelize Index.js to map all model class to a db var
-│   └── Modules // Holds common JS helper functions used in the project
-│       └── Database.js
+├── Modules // Holds common JS helper functions used in the project
+│   └── Database.js
 ── index.js //all the main code lives in here
 ── package.json // Holds information about the project and what packages are required
 ── package-lock.json // Hold what auto install packages(at version) are currently installed
