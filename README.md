@@ -30,3 +30,33 @@ File Structure
 ── package.json // Holds information about the project and what packages are required
 ── package-lock.json // Hold what auto install packages(at version) are currently installed
 
+
+.
+├── nodejs      // Where the code for the project lives
+│   ├── index.js // Entry point for the project
+│   ├── package.json // Holds information about the project and what packages are required
+│   ├── package-lock.json // Hold what auto install packages(at version) are currently installed
+│   ├── conf // Configuration for the project
+│   │   ├── base.js // conf file to always be applied
+│   │   ├── index.js // code to build and return the conf object
+│   │   └── secrets.js // local settings file. This override all other conf files
+│   ├── controller // Logic to tie functionality together
+│   │   ├── mc-bot.js // Executes and manages the bot(s)
+│   │   └── player_list.js // Builds file for daily player list
+│   │   ├── commands // Commands players can run on the bot
+│   │   │   ├── default.js
+│   │   │   ├── fun.js
+│   │   │   ├── index.js
+│   │   │   ├── invite.js
+│   │   │   └── trade.js
+│   ├── model // Data interaction classed
+│   │   ├── minecraft.js // Abstraction of the Mineflayer class.
+│   │   ├── mcaction.js // Class to abstract bot actions and movement, currently unused left for reference 
+│   │   ├── matrix_quotes.js // Holds list of quotes
+│   │   └── pink_quotes.js
+│   └── utils // Holds common JS helper functions used in the project
+│       └── index.js
+└── ops         // Operational concerns, like deploy scripts and services
+    ├── conf.js        // Sample secret.js file
+    └── mc-bot.service
+.
